@@ -35,17 +35,6 @@ type Option struct {
 	Position  int    `json:"position"` // index
 }
 
-type Category struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
-}
-
-type ElementCategory struct {
-	ID         int64 `json:"id"`
-	ElementID  int64 `json:"elementID"`
-	CategoryID int64 `json:"categoryID"`
-}
-
 // TODO
 func handler(ctx context.Context) error {
 	sess := session.Must(session.NewSession())
