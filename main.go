@@ -12,7 +12,6 @@ import (
 
 type Form struct {
 	ID       int    `json:"id"`
-	MongoID  string `json:"mongoID"`
 	Name     string `json:"name"`
 	Required bool   `json:"required"`
 	Live     bool   `json:"live"`
@@ -20,7 +19,6 @@ type Form struct {
 
 type Element struct {
 	ID       int    `json:"id"`
-	MongoID  string `json:"mongoID"`
 	FormID   int    `json:"formID"`
 	Label    string `json:"label"`
 	Type     string `json:"type"`
@@ -32,16 +30,14 @@ type Element struct {
 
 type Option struct {
 	ID        int    `json:"id"`
-	MongoID   string `json:"mongoID"`
 	ElementID int    `json:"elementID"`
 	Name      string `json:"name"`
 	Index     int    `json:"index"`
 }
 
 type Category struct {
-	ID      int    `json:"id"`
-	MongoID string `json:"mongoID"`
-	Name    string `json:"name"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 type FormCategory struct {
