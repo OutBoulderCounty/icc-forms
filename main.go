@@ -11,39 +11,39 @@ import (
 )
 
 type Form struct {
-	ID       int    `json:"id"`
+	ID       int64  `json:"id"`
 	Name     string `json:"name"`
 	Required bool   `json:"required"`
 	Live     bool   `json:"live"`
 }
 
 type Element struct {
-	ID       int    `json:"id"`
-	FormID   int    `json:"formID"`
+	ID       int64  `json:"id"`
+	FormID   int64  `json:"formID"`
 	Label    string `json:"label"`
 	Type     string `json:"type"`
-	Index    int    `json:"index"`
+	Position int    `json:"position"` // index
 	Required bool   `json:"required"`
 	Priority int    `json:"priority"`
 	Search   bool   `json:"search"`
 }
 
 type Option struct {
-	ID        int    `json:"id"`
-	ElementID int    `json:"elementID"`
+	ID        int64  `json:"id"`
+	ElementID int64  `json:"elementID"`
 	Name      string `json:"name"`
-	Index     int    `json:"index"`
+	Position  int    `json:"position"` // index
 }
 
 type Category struct {
-	ID   int    `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
-type FormCategory struct {
-	ID         int `json:"id"`
-	FormID     int `json:"formID"`
-	CategoryID int `json:"categoryID"`
+type ElementCategory struct {
+	ID         int64 `json:"id"`
+	ElementID  int64 `json:"elementID"`
+	CategoryID int64 `json:"categoryID"`
 }
 
 // TODO
