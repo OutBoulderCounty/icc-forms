@@ -1,13 +1,8 @@
-package forms
+package main
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
-	"os"
-
-	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
 type Form struct {
@@ -35,32 +30,24 @@ type Option struct {
 	Position  int    `json:"position"` // index
 }
 
-// TODO
-func handler(ctx context.Context) error {
-	sess := session.Must(session.NewSession())
-	svc := ssm.New(sess)
-	path := fmt.Sprintf("/icc/%s/database/", os.Getenv("APP_ENV"))
-	input := ssm.GetParametersByPathInput{
-		Path: &path,
-	}
-	out, err := svc.GetParametersByPath(&input)
-	if err != nil {
-		return err
-	}
-	params := out.Parameters
-	for i := 0; i < len(params); i++ {
-		fmt.Println(*params[i].Name + ": " + *params[i].Value)
-	}
-	// connection := database.SqlConnection{
-	// 	Host: os.Getenv("DB_HOST"),
-	// 	Port: os.Getenv("DB_PORT"),
-	// 	User: os.Getenv("DB_USER"),
-	// 	Password: os.Getenv("DB_PASSWORD"),
-	// }
-	// database.Connect()
-	return nil
-}
+func GetForms(db *sql.DB) ([]*Form, error) {
+	forms := []*Form{}
 
-func main() {
-	lambda.Start(handler)
+	selectForms := "SELECT * FROM forms"
+	rows, err := db.Query(selectForms)
+	if err != nil {
+		fmt.Println("Failed SQL: " + selectForms)
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var form Form
+		err := rows.Scan(&form)
+		if err != nil {
+			return nil, err
+		}
+		forms = append(forms, &form)
+	}
+
+	return forms, nil
 }
