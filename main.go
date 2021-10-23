@@ -30,8 +30,8 @@ type Option struct {
 	Position  int    `json:"position"` // index
 }
 
-func GetForms(db *sql.DB) ([]*Form, error) {
-	forms := []*Form{}
+func GetForms(db *sql.DB) ([]Form, error) {
+	forms := []Form{}
 
 	selectForms := "SELECT * FROM forms"
 	rows, err := db.Query(selectForms)
@@ -42,11 +42,11 @@ func GetForms(db *sql.DB) ([]*Form, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var form Form
-		err := rows.Scan(&form)
+		err := rows.Scan(&form.ID, &form.Name, &form.Required, &form.Live)
 		if err != nil {
 			return nil, err
 		}
-		forms = append(forms, &form)
+		forms = append(forms, form)
 	}
 
 	return forms, nil
